@@ -2,9 +2,11 @@ import flwr
 import os
 import numpy as np
 import tensorflow as tf
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 
-# https://stackoverflow.com/questions/56203272/docker-compose-scaling-with-unique-environment-variable
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 ENV = os.environ
