@@ -14,17 +14,17 @@ ENV = os.environ
 BATCH_SIZE = int(ENV.get('BATCH_SIZE', "32"))
 CLIENT_ID = int(ENV.get('CLIENT_ID', "1"))
 EPOCHS = int(ENV.get('EPOCHS', "5"))
-NUM_OF_CLIENTS = int(ENV.get('NUM_OF_CLIENTS', "5"))
+MAX_NUM_OF_CLIENTS = int(ENV.get('MAX_NUM_OF_CLIENTS', "5"))
 SERVER_ADDRESS = ENV.get('SERVER_ADDRESS', "localhost:8080")
 STEPS_PER_EPOCH = int(ENV.get('STEPS_PER_EPOCH', "10"))
 
 def get_dataset_portion():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    train_partitions =  list(zip(np.split(x_train, NUM_OF_CLIENTS), np.split(y_train, NUM_OF_CLIENTS)))
-    test_partitions =  list(zip(np.split(x_test, NUM_OF_CLIENTS), np.split(y_test, NUM_OF_CLIENTS)))
+    train_partitions =  list(zip(np.split(x_train, MAX_NUM_OF_CLIENTS), np.split(y_train, MAX_NUM_OF_CLIENTS)))
+    test_partitions =  list(zip(np.split(x_test, MAX_NUM_OF_CLIENTS), np.split(y_test, MAX_NUM_OF_CLIENTS)))
 
-    train_portion = train_partitions[CLIENT_ID % NUM_OF_CLIENTS]
-    test_portion = test_partitions[CLIENT_ID % NUM_OF_CLIENTS]
+    train_portion = train_partitions[CLIENT_ID % MAX_NUM_OF_CLIENTS]
+    test_portion = test_partitions[CLIENT_ID % MAX_NUM_OF_CLIENTS]
 
     print(f"train portion has {len(train_portion[0])} elements")
     print(f"test portion has {len(test_portion[0])} elements")
